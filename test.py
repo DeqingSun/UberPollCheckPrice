@@ -4,12 +4,21 @@ import os
 import re
 from datetime import datetime
 
-destLabel = 'Work'
-priceLogFile= open("priceLog.txt","w+")
+destLabel = 'Home'
+priceLogFile= open("priceLog.txt","a")
+convert_OD_to_0A='\r\r\n'   #console may add line end on stream. I used '\r\r\n' on Win7 and '\n' on Mac
 
 while True:
     while True:    #request price by match string
         os.system("adb shell screencap -p > screen.png")
+
+        if convert_OD_to_0A!='\n':
+            with open('screen.png','rb') as infile:
+                data=infile.read().replace(convert_OD_to_0A, '\n')
+            with open('screenOut.png', 'wb') as outfile:
+                outfile.write(data)
+            os.unlink('screen.png')
+            os.rename('screenOut.png', 'screen.png')
     
         rawImg = Image.open('screen.png')
         processImg = Image.new("RGB", (rawImg.size[0],int(rawImg.size[1]*.32)), (255,255,255))    #need a RGB instead of RGBA
@@ -49,6 +58,14 @@ while True:
         
     while True:
         os.system("adb shell screencap -p > screen.png")
+    
+        if convert_OD_to_0A!='\n':
+            with open('screen.png','rb') as infile:
+                data=infile.read().replace(convert_OD_to_0A, '\n')
+            with open('screenOut.png', 'wb') as outfile:
+                outfile.write(data)
+            os.unlink('screen.png')
+            os.rename('screenOut.png', 'screen.png')
     
         rawImg = Image.open('screen.png')
         processImg = Image.new("RGB", (rawImg.size[0],rawImg.size[1]/2), (255,255,255))    #need a RGB instead of RGBA
