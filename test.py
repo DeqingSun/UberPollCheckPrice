@@ -12,16 +12,18 @@ while True:
         os.system("adb shell screencap -p > screen.png")
     
         rawImg = Image.open('screen.png')
-        processImg = Image.new("RGB", (rawImg.size[0],rawImg.size[1]/2), (255,255,255))    #need a RGB instead of RGBA
+        processImg = Image.new("RGB", (rawImg.size[0],int(rawImg.size[1]*.32)), (255,255,255))    #need a RGB instead of RGBA
+        processImg.paste(rawImg,(0,(-rawImg.size[1]/2)))   ##only bottom half without ad, ad banner will interfere API
+
+        processImg=processImg.convert('L'); #grayscale
         
-        #print (str(im.size[0]) + " " + str(im.size[1]) + str(-im.size[1]/2))
+        w, h = processImg.size
+        for xPix in range(w):
+            for yPix in range(h):
+                if processImg.getpixel((xPix, yPix)) > 10: #threshold
+                    processImg.putpixel((xPix, yPix), 255)
         
-        
-        processImg.paste(rawImg,(0,(-rawImg.size[1]/2)))   ##only bottom half
         boxes = image_to_string(processImg,lang='eng',boxes=True)
-        #print boxes;
-        
-        #print '=========';
         
         recongnizedIndex = 0
         x=0
@@ -32,7 +34,7 @@ while True:
                 if recongnizedIndex==len(destLabel):
                     para = box.split(' ')
                     x=int(para[1])
-                    y=rawImg.size[1]-int(para[4])
+                    y=rawImg.size[1]/2+processImg.size[1]-int(para[4])
                     print 'Found '+destLabel+' on '+str(x)+', '+str(y)
             else:
                 recongnizedIndex=0
