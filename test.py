@@ -6,7 +6,7 @@ from datetime import datetime
 
 destLabel = 'Home'
 priceLogFile= open("priceLog.txt","a")
-convert_OD_to_0A='\r\r\n'   #console may add line end on stream. I used '\r\r\n' on Win7 and '\n' on Mac
+convert_OD_to_0A='\r\r\n'   #console may add line end on stream. I used '\r\r\n' on Win7 with Nexus 5X, '\r\n' on Win7 with Nexus 5 and '\n' on Mac with Nexus 5X
 
 while True:
     while True:    #request price by match string
