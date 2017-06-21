@@ -1,5 +1,9 @@
 # UberPollCheckPrice
 
+![full](https://raw.githubusercontent.com/DeqingSun/UberPollCheckPrice/master/checkPrice.gif)
+
+This project fetches real time price from Uber to help you understand When is the best time to take a Uber back home without paying extra.
+
 You need to enable USB Debugging mode.
 
 on Mac
